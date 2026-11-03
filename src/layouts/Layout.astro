@@ -120,50 +120,24 @@ const { title = "Central PA Mesh | CPAMe.sh", description = "Central PA Mesh is 
 
   nav a:hover { color: var(--blue); }
 
-  .discord-btn {
-    background: linear-gradient(135deg, var(--blue) 0%, var(--green) 100%);
-    color: white !important;
-    padding: 0.5rem 1.25rem;
-    border-radius: 999px;
-    font-weight: 600;
-    text-decoration: none;
-    display: inline-block;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-  }
-
-  .discord-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
-  }
-
   .hero {
-    padding: 4rem 0 5rem;
+    padding: 0 0 4rem;
     background: linear-gradient(180deg, #f0f9ff 0%, white 100%);
     text-align: center;
   }
 
-  .hero img { height: 140px; width: auto; margin-bottom: 1.5rem; }
-
-  .hero h1 {
-    font-size: 3rem;
-    font-weight: 800;
-    color: var(--navy);
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.5px;
+  .hero-banner {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 2rem;
+    max-height: 70vh;
+    object-fit: contain;
   }
 
-  .hero h1 span {
-    background: linear-gradient(90deg, var(--blue), var(--green));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .hero .tagline {
-    font-size: 1.25rem;
-    color: var(--text-light);
-    margin-bottom: 2rem;
-    font-weight: 500;
+  .hero .container {
+    padding-top: 1rem;
   }
 
   .hero p {
@@ -171,6 +145,28 @@ const { title = "Central PA Mesh | CPAMe.sh", description = "Central PA Mesh is 
     margin: 0 auto 2rem;
     font-size: 1.1rem;
     color: var(--text);
+  }
+
+  .icon-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    color: white !important;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .icon-btn svg { flex-shrink: 0; }
+
+  .discord-btn { background: #5865F2; }
+  .facebook-btn { background: #1877F2; }
+
+  .icon-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   }
 
   .cta-group {
@@ -269,8 +265,8 @@ const { title = "Central PA Mesh | CPAMe.sh", description = "Central PA Mesh is 
   .footer-logo { height: 60px; margin-bottom: 1rem; opacity: 0.9; }
 
   @media (max-width: 700px) {
-    .hero h1 { font-size: 2.25rem; }
     nav { display: none; }
     .header-inner { justify-content: center; }
+    .hero-banner { max-height: 50vh; }
   }
 </style>
