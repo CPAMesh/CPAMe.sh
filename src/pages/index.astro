@@ -1,0 +1,141 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+  <header>
+    <div class="container header-inner">
+      <a href="/" class="logo">
+        <img src="/logo.jpg" alt="Central PA Mesh Logo - Meshcore and LoRa network in Pennsylvania" />
+        <div class="logo-text">
+          CENTRAL PA<br>
+          <span>MESH</span>
+        </div>
+      </a>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#get-started">Get Started</a>
+        <a href="#resources">Resources</a>
+        <a href="https://discord.gg/9wWs3Y7Cx5" class="discord-btn" target="_blank" rel="noopener">Join Discord</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <img src="/logo.jpg" alt="Central PA Mesh - Decentralized Communities" />
+      <h1>Central PA <span>Mesh</span></h1>
+      <p class="tagline">DECENTRALIZED COMMUNITIES</p>
+      <p>
+        The largest Meshcore community in Central Pennsylvania, with Meshtastic users welcome. 
+        Off-grid LoRa mesh networking for Harrisburg, Lancaster, York, Reading, Gettysburg, State College, and the surrounding region.
+      </p>
+      <div class="cta-group">
+        <a href="https://discord.gg/9wWs3Y7Cx5" class="discord-btn" target="_blank" rel="noopener">Join the Discord</a>
+        <a href="#get-started" class="btn-secondary">How to Connect</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="container">
+      <h2>About Central PA Mesh</h2>
+      <p class="section-intro">
+        Central PA Mesh brings together Meshcore users (and some Meshtastic folks) to build a reliable, community-owned LoRa radio network across Central Pennsylvania. No cell towers, no internet required for local messaging.
+      </p>
+      <div class="grid">
+        <div class="card">
+          <h3>Meshcore First</h3>
+          <p>We primarily use Meshcore for lightweight, multi-hop LoRa messaging. It's simple, scalable, and designed for real-world off-grid use across Central PA.</p>
+        </div>
+        <div class="card">
+          <h3>Meshtastic Welcome</h3>
+          <p>Meshtastic users are part of the broader community. We're happy to help bridge networks and share knowledge across both Meshcore and Meshtastic in Pennsylvania.</p>
+        </div>
+        <div class="card">
+          <h3>Local & Decentralized</h3>
+          <p>No central servers. Messages hop from node to node across Harrisburg, Lancaster, York, Reading, and beyond. The more nodes, the stronger the mesh.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="discord-highlight" id="discord">
+    <div class="container">
+      <h2>Find Us on Discord</h2>
+      <p>
+        The best way to get help, share node locations, coordinate builds, and stay updated is our Discord server. 
+        New Meshcore and Meshtastic users in Central PA are always welcome.
+      </p>
+      <a href="https://discord.gg/9wWs3Y7Cx5" class="discord-btn" target="_blank" rel="noopener">
+        Join Discord → discord.gg/9wWs3Y7Cx5
+      </a>
+    </div>
+  </section>
+
+  <section id="get-started">
+    <div class="container">
+      <h2>How to Get Started with LoRa Mesh in Central PA</h2>
+      <p class="section-intro">
+        Getting on the Central PA Mesh is straightforward. Here's the basic path for most people near Harrisburg, Lancaster, York, or elsewhere in the region.
+      </p>
+      <div class="grid">
+        <div class="card">
+          <h3>1. Get Hardware</h3>
+          <p>A LoRa radio (Heltec, RAK, LilyGo, etc.) that supports Meshcore. Make sure it's the 915 MHz version for the US and Central Pennsylvania.</p>
+        </div>
+        <div class="card">
+          <h3>2. Flash Firmware</h3>
+          <p>Use the official Meshcore web flasher or community tools. Most devices can be flashed in under a minute.</p>
+        </div>
+        <div class="card">
+          <h3>3. Join the Network</h3>
+          <p>Set the USA/Canada regional preset, power on, and start talking. Then hop into Discord to introduce yourself and find nearby nodes in Central PA.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="resources">
+    <div class="container">
+      <h2>Resources for Meshcore & Meshtastic in Pennsylvania</h2>
+      <p class="section-intro">
+        Official and community links to help you get online and stay connected on the Central PA Mesh.
+      </p>
+      <div class="grid">
+        <div class="card">
+          <h3>Official Meshcore</h3>
+          <p>meshcore.io · flasher.meshcore.io · map.meshcore.io</p>
+        </div>
+        <div class="card">
+          <h3>Hardware Guides</h3>
+          <p>Popular boards: Heltec V3/V4, RAK WisBlock, LilyGo T-Beam, and solar nodes for Central Pennsylvania coverage.</p>
+        </div>
+        <div class="card">
+          <h3>Local Help</h3>
+          <p>Ask in Discord for recommended frequencies, known repeaters, and people near you in Harrisburg, Lancaster, York, Reading, or elsewhere in Central PA.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <img src="/logo.jpg" alt="Central PA Mesh" class="footer-logo" />
+      <p>
+        Central PA Mesh · CPAMe.sh<br>
+        Decentralized Communities · LoRa Mesh Networking in Central Pennsylvania
+      </p>
+      <p style="margin-top: 1rem;">
+        <a href="https://discord.gg/9wWs3Y7Cx5" target="_blank" rel="noopener">Discord</a>
+        · 
+        <a href="#about">About</a>
+        · 
+        <a href="#resources">Resources</a>
+      </p>
+      <p style="margin-top: 2rem; font-size: 0.85rem;">
+        Community site for the Central PA Mesh network (Meshcore & Meshtastic). Not affiliated with official Meshcore or Meshtastic projects.
+      </p>
+    </div>
+  </footer>
+</Layout>
