@@ -1,5 +1,5 @@
 ---
-const { title = "Central PA Mesh | CPAMe.sh", description = "Central PA Mesh is the largest Meshcore community in Central Pennsylvania, with Meshtastic users welcome. Join our Discord for local LoRa mesh networking, off-grid messaging, and node coordination across Harrisburg, Lancaster, York, Reading, and surrounding areas." } = Astro.props;
+const { title = "Central PA Mesh | CPAMe.sh", description = "Central PA Mesh is the largest Meshcore community in Central Pennsylvania, with Meshtastic users welcome. Off-grid LoRa mesh networking for Centre, Clinton, Clearfield, Cambria, Blair, and northern Huntingdon Counties. 28+ Meshcore repeaters and growing." } = Astro.props;
 ---
 <!doctype html>
 <html lang="en">
@@ -8,28 +8,28 @@ const { title = "Central PA Mesh | CPAMe.sh", description = "Central PA Mesh is 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/jpeg" href="/logo.jpg" />
     <meta name="generator" content={Astro.generator} />
-    
+
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="keywords" content="Central PA Mesh, CPAMe.sh, Meshcore Pennsylvania, Meshtastic Central PA, LoRa mesh Harrisburg, LoRa network Lancaster, off-grid mesh York PA, Meshcore Discord, decentralized mesh Pennsylvania, LoRa radio Central Pennsylvania" />
-    
+    <meta name="keywords" content="Central PA Mesh, CPAMe.sh, Meshcore Pennsylvania, Meshtastic Central PA, LoRa mesh Centre County, LoRa network Clinton County, off-grid mesh Clearfield, Meshcore Cambria Blair Huntingdon, Meshcore Discord, decentralized mesh Pennsylvania, LoRa radio Central Pennsylvania" />
+
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="/logo.jpg" />
+    <meta property="og:image" content="https://cpame.sh/logo.jpg" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://cpame.sh" />
-    
+
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="/logo.jpg" />
-    
+    <meta name="twitter:image" content="https://cpame.sh/logo.jpg" />
+
     <!-- Geo targeting for local search -->
     <meta name="geo.region" content="US-PA" />
     <meta name="geo.placename" content="Central Pennsylvania" />
-    
+
     <!-- Structured Data -->
     <script type="application/ld+json">
     {
@@ -47,7 +47,7 @@ const { title = "Central PA Mesh | CPAMe.sh", description = "Central PA Mesh is 
       }
     }
     </script>
-    
+
     <slot name="head" />
   </head>
   <body>
