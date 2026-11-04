@@ -91,6 +91,114 @@ import Layout from '../layouts/Layout.astro';
   </div>
 </section>
 
+<section id="map">
+  <div class="container">
+    <h2>Coverage Map</h2>
+    <p class="section-intro">
+      Live MeshMapper repeaters for the Central PA (SCE) region. Click a marker for details.
+    </p>
+
+    <div class="map-controls">
+      <button id="theme-toggle" type="button">Toggle Light / Dark</button>
+    </div>
+
+    <div id="repeater-map" class="repeater-map"></div>
+
+    <p style="text-align: center; margin-top: 1rem;">
+      <a href="https://sce.meshmapper.net/" target="_blank" rel="noopener">Open full map on MeshMapper →</a>
+    </p>
+  </div>
+</section>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+  (function () {
+    const mapEl = document.getElementById("repeater-map");
+    if (!mapEl) return;
+
+    const map = L.map("repeater-map").setView([40.7934, -77.8600], 9);
+
+    const lightTiles = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+      attribution: '&copy; OpenStreetMap &copy; CARTO',
+      maxZoom: 19
+    });
+
+    const darkTiles = L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+      attribution: '&copy; OpenStreetMap &copy; CARTO',
+      maxZoom: 19
+    });
+
+    lightTiles.addTo(map);
+
+    const themeBtn = document.getElementById("theme-toggle");
+    let isDark = false;
+    themeBtn?.addEventListener("click", () => {
+      if (isDark) {
+        map.removeLayer(darkTiles);
+        lightTiles.addTo(map);
+      } else {
+        map.removeLayer(lightTiles);
+        darkTiles.addTo(map);
+      }
+      isDark = !isDark;
+    });
+
+    fetch("/api/repeaters")
+      .then(r => r.json())
+      .then(repeaters => {
+        if (!Array.isArray(repeaters)) return;
+
+        const markers = L.layerGroup().addTo(map);
+
+        repeaters.forEach(rep => {
+          if (!rep.lat || !rep.lon || (rep.lat === 0 && rep.lon === 0)) return;
+
+          const status =
+            rep.enabled === 1 ? "Active" :
+            rep.enabled === 2 ? "Ambiguous" :
+            rep.enabled === 3 ? "Inactive" : "Disabled";
+
+          const lastHeard = rep.last_heard
+            ? new Date(rep.last_heard * 1000).toLocaleString()
+            : "Unknown";
+
+          let html = `
+            <strong>${rep.name || rep.id}</strong><br>
+            ID: ${rep.id}<br>
+            Status: ${status}<br>
+            Last heard: ${lastHeard}<br>
+          `;
+
+          if (rep.power) html += `Power: ${rep.power}<br>`;
+          if (rep.hardware) html += `Hardware: ${rep.hardware}<br>`;
+          if (rep.antenna) html += `Antenna: ${rep.antenna}<br>`;
+          if (rep.height_m) html += `Height: ${rep.height_m} m<br>`;
+          if (rep.power_source) html += `Power source: ${rep.power_source}<br>`;
+          if (rep.preset_current) html += `Preset: ${rep.preset_current}<br>`;
+          if (rep.backbone) html += `Backbone: yes<br>`;
+          if (rep.site_notes) html += `<em>${rep.site_notes}</em><br>`;
+
+          html += `<br><a href="https://sce.meshmapper.net/?repeater=${rep.id}" target="_blank" rel="noopener">View on MeshMapper →</a>`;
+
+          L.marker([rep.lat, rep.lon])
+            .bindPopup(html)
+            .addTo(markers);
+        });
+
+        if (repeaters.length) {
+          const group = L.featureGroup(markers.getLayers());
+          map.fitBounds(group.getBounds().pad(0.2));
+        }
+      })
+      .catch(err => {
+        console.error("Failed to load repeaters", err);
+        mapEl.insertAdjacentHTML("afterend", "<p style='text-align:center;color:#c00;'>Could not load repeater data.</p>");
+      });
+  })();
+</script>
+
   <section id="get-started">
     <div class="container">
       <h2>How to Get Started with LoRa Mesh in Central PA</h2>
