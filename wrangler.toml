@@ -1,0 +1,14 @@
+name = "cpame-sh"
+main = "src/worker.js"
+compatibility_date = "2024-09-23"
+
+[site]
+bucket = "./dist"
+
+[[routes]]
+pattern = "cpame.sh/*"
+zone_name = "cpame.sh"
+
+[[routes]]
+pattern = "www.cpame.sh/*"
+zone_name = "cpame.sh"
