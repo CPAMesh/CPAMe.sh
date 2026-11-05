@@ -127,7 +127,6 @@ import Layout from '../layouts/Layout.astro';
 
     const themeBtn = document.getElementById("theme-toggle");
     let isDark = false;
-
     themeBtn?.addEventListener("click", () => {
       isDark = !isDark;
       const tiles = mapEl.querySelector(".leaflet-tile-pane");
@@ -138,12 +137,47 @@ import Layout from '../layouts/Layout.astro';
       }
     });
 
+    const coverageLayer = L.layerGroup().addTo(map);
+    const markers = L.layerGroup().addTo(map);
+
+    // Coverage grid
+    fetch("/api/coverage")
+      .then(r => r.json())
+      .then(data => {
+        if (!data || !Array.isArray(data.grid_squares)) return;
+
+        data.grid_squares.forEach(sq => {
+          if (!sq.bounds) return;
+          L.rectangle(
+            [[sq.bounds.south, sq.bounds.west], [sq.bounds.north, sq.bounds.east]],
+            {
+              fillColor: sq.fill_color || "#1e7e34",
+              color: sq.border_color || "#14522d",
+              fillOpacity: 0.45,
+              weight: 1
+            }
+          ).bindPopup(`
+            <strong>${sq.coverage_type || "Coverage"}</strong><br>
+            Count: ${sq.count || 0}<br>
+            SNR: ${sq.snr ?? "n/a"}<br>
+            <a href="https://sce.meshmapper.net/" target="_blank" rel="noopener">View full map →</a>
+          `).addTo(coverageLayer);
+        });
+
+        if (data.bbox) {
+          map.fitBounds([
+            [data.bbox.minLat, data.bbox.minLon],
+            [data.bbox.maxLat, data.bbox.maxLon]
+          ]);
+        }
+      })
+      .catch(err => console.error("Coverage failed", err));
+
+    // Repeaters
     fetch("/api/repeaters")
       .then(r => r.json())
       .then(repeaters => {
         if (!Array.isArray(repeaters)) return;
-
-        const markers = L.layerGroup().addTo(map);
 
         repeaters.forEach(rep => {
           if (!rep.lat || !rep.lon || (rep.lat === 0 && rep.lon === 0)) return;
@@ -179,11 +213,6 @@ import Layout from '../layouts/Layout.astro';
             .bindPopup(html)
             .addTo(markers);
         });
-
-        if (repeaters.length) {
-          const group = L.featureGroup(markers.getLayers());
-          map.fitBounds(group.getBounds().pad(0.2));
-        }
       })
       .catch(err => {
         console.error("Failed to load repeaters", err);
