@@ -112,6 +112,9 @@ import Layout from '../layouts/Layout.astro';
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
 <script>
   (function () {
@@ -138,7 +141,12 @@ import Layout from '../layouts/Layout.astro';
     });
 
     const coverageLayer = L.layerGroup().addTo(map);
-    const markers = L.layerGroup().addTo(map);
+    const markers = L.markerClusterGroup({
+      maxClusterRadius: 50,
+      spiderfyOnMaxZoom: true,
+      showCoverageOnHover: false,
+      zoomToBoundsOnClick: true
+    }).addTo(map);
     const linesLayer = L.layerGroup().addTo(map);
 
     function makePillIcon(name, shortId) {
