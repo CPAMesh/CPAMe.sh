@@ -8,28 +8,23 @@ const { title = "Central PA Mesh | CPAMe.sh", description = "Central PA Mesh is 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/jpeg" href="/logo.jpg" />
     <meta name="generator" content={Astro.generator} />
-
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="keywords" content="Central PA Mesh, CPAMe.sh, Meshcore Pennsylvania, Meshtastic Central PA, LoRa mesh Centre County, LoRa network Clinton County, off-grid mesh Clearfield, Meshcore Cambria Blair Huntingdon, Meshcore Discord, decentralized mesh Pennsylvania, LoRa radio Central Pennsylvania" />
-
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content="https://cpame.sh/logo.jpg" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://cpame.sh" />
-
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content="https://cpame.sh/logo.jpg" />
-
     <!-- Geo targeting for local search -->
     <meta name="geo.region" content="US-PA" />
     <meta name="geo.placename" content="Central Pennsylvania" />
-
     <!-- Structured Data -->
     <script type="application/ld+json">
     {
@@ -47,7 +42,6 @@ const { title = "Central PA Mesh | CPAMe.sh", description = "Central PA Mesh is 
       }
     }
     </script>
-
     <slot name="head" />
   </head>
   <body>
@@ -287,6 +281,42 @@ const { title = "Central PA Mesh | CPAMe.sh", description = "Central PA Mesh is 
 
   .footer-logo { height: 60px; margin-bottom: 1rem; opacity: 0.9; }
 
+  /* Map styles — always applied */
+  .repeater-map {
+    width: 100%;
+    height: 520px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    margin: 1rem 0;
+    background: #f8fafc;
+  }
+
+  .map-controls {
+    text-align: center;
+    margin-bottom: 0.75rem;
+  }
+
+  #theme-toggle {
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: white;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: background 0.15s ease, transform 0.1s ease;
+  }
+
+  #theme-toggle:hover {
+    background: var(--bg-alt);
+    transform: translateY(-1px);
+  }
+
+  #theme-toggle:active {
+    transform: translateY(0);
+  }
+
   @media (max-width: 700px) {
     .header-inner {
       flex-wrap: wrap;
@@ -310,50 +340,15 @@ const { title = "Central PA Mesh | CPAMe.sh", description = "Central PA Mesh is 
     .hero-banner {
       max-height: 50vh;
     }
-    .repeater-map {
-      width: 100%;
-      height: 520px;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-      margin: 1rem 0;
-      background: #f8fafc;
-    }
 
-    .map-controls {
-      text-align: center;
-      margin-bottom: 0.75rem;
+    .repeater-map {
+      height: 380px;
+      border-radius: 8px;
     }
 
     #theme-toggle {
-      padding: 0.4rem 1rem;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: white;
-      cursor: pointer;
-      font-weight: 500;
-      font-size: 0.9rem;
-      transition: background 0.15s ease, transform 0.1s ease;
+      font-size: 0.85rem;
+      padding: 0.35rem 0.9rem;
     }
-
-    #theme-toggle:hover {
-      background: var(--bg-alt);
-      transform: translateY(-1px);
-    }
-
-    #theme-toggle:active {
-      transform: translateY(0);
-    }
-
-    @media (max-width: 700px) {
-      .repeater-map {
-        height: 380px;
-        border-radius: 8px;
-      }
-
-      #theme-toggle {
-        font-size: 0.85rem;
-        padding: 0.35rem 0.9rem;
-      }
-    }
+  }
 </style>
