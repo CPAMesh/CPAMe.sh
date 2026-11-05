@@ -120,7 +120,7 @@ import Layout from '../layouts/Layout.astro';
 
     const map = L.map("repeater-map").setView([40.7934, -77.8600], 9);
 
-    const osmTiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: '&copy; OpenStreetMap contributors',
       maxZoom: 19
     }).addTo(map);
@@ -139,13 +139,22 @@ import Layout from '../layouts/Layout.astro';
 
     const coverageLayer = L.layerGroup().addTo(map);
     const markers = L.layerGroup().addTo(map);
+    const linesLayer = L.layerGroup().addTo(map);
+
+    // Custom repeater icon
+    const repeaterIcon = L.divIcon({
+      className: "repeater-icon",
+      html: `<div style="background:#1a73e8;color:white;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,.4);">R</div>`,
+      iconSize: [28, 28],
+      iconAnchor: [14, 14],
+      popupAnchor: [0, -16]
+    });
 
     // Coverage grid
     fetch("/api/coverage")
       .then(r => r.json())
       .then(data => {
         if (!data || !Array.isArray(data.grid_squares)) return;
-
         data.grid_squares.forEach(sq => {
           if (!sq.bounds) return;
           L.rectangle(
@@ -153,8 +162,8 @@ import Layout from '../layouts/Layout.astro';
             {
               fillColor: sq.fill_color || "#1e7e34",
               color: sq.border_color || "#14522d",
-              fillOpacity: 0.45,
-              weight: 1
+              fillOpacity: 0.35,
+              weight: 0.5
             }
           ).bindPopup(`
             <strong>${sq.coverage_type || "Coverage"}</strong><br>
@@ -163,41 +172,36 @@ import Layout from '../layouts/Layout.astro';
             <a href="https://sce.meshmapper.net/" target="_blank" rel="noopener">View full map →</a>
           `).addTo(coverageLayer);
         });
-
         if (data.bbox) {
-          map.fitBounds([
-            [data.bbox.minLat, data.bbox.minLon],
-            [data.bbox.maxLat, data.bbox.maxLon]
-          ]);
+          map.fitBounds([[data.bbox.minLat, data.bbox.minLon], [data.bbox.maxLat, data.bbox.maxLon]]);
         }
       })
       .catch(err => console.error("Coverage failed", err));
 
-    // Repeaters
+    // Repeaters + neighbor lines
     fetch("/api/repeaters")
       .then(r => r.json())
       .then(repeaters => {
         if (!Array.isArray(repeaters)) return;
 
+        const byHex = {};
+        const valid = [];
+
         repeaters.forEach(rep => {
           if (!rep.lat || !rep.lon || (rep.lat === 0 && rep.lon === 0)) return;
+          byHex[rep.hex_id] = rep;
+          valid.push(rep);
 
-          const status =
-            rep.enabled === 1 ? "Active" :
-            rep.enabled === 2 ? "Ambiguous" :
-            rep.enabled === 3 ? "Inactive" : "Disabled";
-
-          const lastHeard = rep.last_heard
-            ? new Date(rep.last_heard * 1000).toLocaleString()
-            : "Unknown";
+          const shortId = (rep.id || "").slice(0, 4).toUpperCase();
+          const status = rep.enabled === 1 ? "Active" : rep.enabled === 2 ? "Ambiguous" : rep.enabled === 3 ? "Inactive" : "Disabled";
+          const lastHeard = rep.last_heard ? new Date(rep.last_heard * 1000).toLocaleString() : "Unknown";
 
           let html = `
             <strong>${rep.name || rep.id}</strong><br>
-            ID: ${rep.id}<br>
+            ID: ${shortId}<br>
             Status: ${status}<br>
             Last heard: ${lastHeard}<br>
           `;
-
           if (rep.power) html += `Power: ${rep.power}<br>`;
           if (rep.hardware) html += `Hardware: ${rep.hardware}<br>`;
           if (rep.antenna) html += `Antenna: ${rep.antenna}<br>`;
@@ -206,12 +210,47 @@ import Layout from '../layouts/Layout.astro';
           if (rep.preset_current) html += `Preset: ${rep.preset_current}<br>`;
           if (rep.backbone) html += `Backbone: yes<br>`;
           if (rep.site_notes) html += `<em>${rep.site_notes}</em><br>`;
-
           html += `<br><a href="https://sce.meshmapper.net/?repeater=${rep.id}" target="_blank" rel="noopener">View on MeshMapper →</a>`;
 
-          L.marker([rep.lat, rep.lon])
+          // Marker with name + short ID label
+          const label = L.marker([rep.lat, rep.lon], { icon: repeaterIcon })
             .bindPopup(html)
+            .bindTooltip(`${rep.name || shortId}<br><b>${shortId}</b>`, { permanent: false, direction: "top", offset: [0, -12] })
             .addTo(markers);
+
+          // Permanent small label
+          L.marker([rep.lat, rep.lon], {
+            icon: L.divIcon({
+              className: "repeater-label",
+              html: `<div style="font-size:10px;font-weight:600;color:#0a2540;background:rgba(255,255,255,.85);padding:1px 4px;border-radius:3px;white-space:nowrap;box-shadow:0 1px 2px rgba(0,0,0,.2);">${shortId}</div>`,
+              iconSize: [0, 0],
+              iconAnchor: [-14, 10]
+            })
+          }).addTo(markers);
+        });
+
+        // Draw proven neighbour lines
+        valid.forEach(rep => {
+          if (!Array.isArray(rep.proven_neighbours)) return;
+          rep.proven_neighbours.forEach(n => {
+            if (!n.key) return;
+            // Match by prefix or full hex
+            const neighbor = Object.values(byHex).find(r =>
+              r.hex_id && (r.hex_id.startsWith(n.key) || n.key.startsWith(r.hex_id.slice(0, n.key.length)))
+            );
+            if (!neighbor || !neighbor.lat || !neighbor.lon) return;
+
+            const color = n.snr > 5 ? "#1e7e34" : n.snr > 0 ? "#fd7e14" : "#6c757d";
+            L.polyline([[rep.lat, rep.lon], [neighbor.lat, neighbor.lon]], {
+              color,
+              weight: 2,
+              opacity: 0.7
+            }).bindPopup(`
+              <strong>${rep.name || rep.id}</strong> ↔ <strong>${neighbor.name || neighbor.id}</strong><br>
+              SNR: ${n.snr ?? "n/a"} dB<br>
+              <a href="https://sce.meshmapper.net/" target="_blank" rel="noopener">View on MeshMapper →</a>
+            `).addTo(linesLayer);
+          });
         });
       })
       .catch(err => {
