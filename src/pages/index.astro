@@ -141,14 +141,36 @@ import Layout from '../layouts/Layout.astro';
     const markers = L.layerGroup().addTo(map);
     const linesLayer = L.layerGroup().addTo(map);
 
-    // Custom repeater icon
-    const repeaterIcon = L.divIcon({
-      className: "repeater-icon",
-      html: `<div style="background:#1a73e8;color:white;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,.4);">R</div>`,
-      iconSize: [28, 28],
-      iconAnchor: [14, 14],
-      popupAnchor: [0, -16]
-    });
+    function makePillIcon(name, shortId) {
+      const label = (name || shortId).slice(0, 18);
+      return L.divIcon({
+        className: "repeater-pill",
+        html: `
+          <div style="
+            display:inline-flex;align-items:center;gap:5px;
+            background:rgba(26,115,232,0.85);color:#fff;border-radius:999px;
+            padding:2px 8px 2px 3px;font-size:11px;font-weight:600;
+            white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.4);
+            border:1px solid rgba(255,255,255,.4);
+            backdrop-filter:blur(2px);
+          ">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.95;">
+              <path d="M12 2v4"/>
+              <path d="M8 6h8"/>
+              <path d="M6 10h12"/>
+              <path d="M4 14h16"/>
+              <path d="M2 18h20"/>
+              <path d="M12 6v16"/>
+            </svg>
+            <span>${label}</span>
+            <span style="opacity:.85;font-weight:500;font-size:10px;">${shortId}</span>
+          </div>
+        `,
+        iconSize: [null, null],
+        iconAnchor: [0, 10],
+        popupAnchor: [0, -10]
+      });
+    }
 
     // Coverage grid
     fetch("/api/coverage")
@@ -162,8 +184,8 @@ import Layout from '../layouts/Layout.astro';
             {
               fillColor: sq.fill_color || "#1e7e34",
               color: sq.border_color || "#14522d",
-              fillOpacity: 0.35,
-              weight: 0.5
+              fillOpacity: 0.3,
+              weight: 0.4
             }
           ).bindPopup(`
             <strong>${sq.coverage_type || "Coverage"}</strong><br>
@@ -212,42 +234,35 @@ import Layout from '../layouts/Layout.astro';
           if (rep.site_notes) html += `<em>${rep.site_notes}</em><br>`;
           html += `<br><a href="https://sce.meshmapper.net/?repeater=${rep.id}" target="_blank" rel="noopener">View on MeshMapper →</a>`;
 
-          // Marker with name + short ID label
-          const label = L.marker([rep.lat, rep.lon], { icon: repeaterIcon })
+          L.marker([rep.lat, rep.lon], { icon: makePillIcon(rep.name, shortId) })
             .bindPopup(html)
-            .bindTooltip(`${rep.name || shortId}<br><b>${shortId}</b>`, { permanent: false, direction: "top", offset: [0, -12] })
             .addTo(markers);
-
-          // Permanent small label
-          L.marker([rep.lat, rep.lon], {
-            icon: L.divIcon({
-              className: "repeater-label",
-              html: `<div style="font-size:10px;font-weight:600;color:#0a2540;background:rgba(255,255,255,.85);padding:1px 4px;border-radius:3px;white-space:nowrap;box-shadow:0 1px 2px rgba(0,0,0,.2);">${shortId}</div>`,
-              iconSize: [0, 0],
-              iconAnchor: [-14, 10]
-            })
-          }).addTo(markers);
         });
 
-        // Draw proven neighbour lines
+        // Proven neighbour lines
         valid.forEach(rep => {
-          if (!Array.isArray(rep.proven_neighbours)) return;
+          if (!Array.isArray(rep.proven_neighbours) || !rep.proven_neighbours.length) return;
+
           rep.proven_neighbours.forEach(n => {
             if (!n.key) return;
-            // Match by prefix or full hex
+
             const neighbor = Object.values(byHex).find(r =>
               r.hex_id && (r.hex_id.startsWith(n.key) || n.key.startsWith(r.hex_id.slice(0, n.key.length)))
             );
             if (!neighbor || !neighbor.lat || !neighbor.lon) return;
 
-            const color = n.snr > 5 ? "#1e7e34" : n.snr > 0 ? "#fd7e14" : "#6c757d";
+            const snr = n.snr ?? 0;
+            const color = snr >= 6 ? "#1e7e34" : snr >= 2 ? "#fd7e14" : "#6c757d";
+            const weight = snr >= 6 ? 3.5 : 2.5;
+
             L.polyline([[rep.lat, rep.lon], [neighbor.lat, neighbor.lon]], {
               color,
-              weight: 2,
-              opacity: 0.7
+              weight,
+              opacity: 0.85,
+              lineJoin: "round"
             }).bindPopup(`
               <strong>${rep.name || rep.id}</strong> ↔ <strong>${neighbor.name || neighbor.id}</strong><br>
-              SNR: ${n.snr ?? "n/a"} dB<br>
+              SNR: ${snr} dB<br>
               <a href="https://sce.meshmapper.net/" target="_blank" rel="noopener">View on MeshMapper →</a>
             `).addTo(linesLayer);
           });
