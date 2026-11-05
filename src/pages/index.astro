@@ -107,13 +107,23 @@ import Layout from '../layouts/Layout.astro';
     <p style="text-align: center; margin-top: 1rem;">
       <a href="https://sce.meshmapper.net/" target="_blank" rel="noopener">Open full map on MeshMapper →</a>
     </p>
+
+    <h3 style="text-align:center; margin: 2.5rem 0 1rem; font-size:1.4rem;">Full MeshMapper View</h3>
+    <div style="width:100%; height:520px; border-radius:12px; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,.08);">
+      <iframe
+        src="https://sce.meshmapper.net/embed.php?lat=40.7934&lon=-77.8600&meters=80000"
+        style="width:100%; height:100%; border:none;"
+        loading="lazy"
+        title="MeshMapper SCE Embed">
+      </iframe>
+    </div>
   </div>
 </section>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
 <script>
