@@ -1,7 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
 ---
-
 <Layout>
   <header>
     <div class="container header-inner">
@@ -72,45 +71,36 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 
-<section class="discord-highlight" id="discord">
-  <div class="container">
-    <h2>Find Us on Discord</h2>
-    <p>
-      The best way to get help, share node locations, coordinate builds, and stay updated is our Discord server. 
-      New Meshcore and Meshtastic users in Central PA are always welcome.
-    </p>
-    <div class="discord-widget-wrap">
-      <iframe 
-        src="https://discord.com/widget?id=1454268403958419571&theme=dark" 
-        class="discord-widget"
-        allowtransparency="true" 
-        frameborder="0" 
-        sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
-      </iframe>
+  <section class="discord-highlight" id="discord">
+    <div class="container">
+      <h2>Find Us on Discord</h2>
+      <p>
+        The best way to get help, share node locations, coordinate builds, and stay updated is our Discord server. 
+        New Meshcore and Meshtastic users in Central PA are always welcome.
+      </p>
+      <div class="discord-widget-wrap">
+        <iframe 
+          src="https://discord.com/widget?id=1454268403958419571&theme=dark" 
+          class="discord-widget"
+          allowtransparency="true" 
+          frameborder="0" 
+          sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
+        </iframe>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="map">
-  <div class="container">
-    <h2>Coverage Map</h2>
-    <p class="section-intro">
-      Live MeshMapper repeaters for the Central PA (SCE) region. Click a marker for details.
-    </p>
+  <section id="map">
+    <div class="container">
+      <h2>Coverage Map</h2>
+      <p class="section-intro">
+        Live MeshMapper repeaters for the Central PA (SCE) region. Click the map to open the full interactive view.
+      </p>
 
-    <div class="map-controls">
-      <button id="theme-toggle" type="button">Toggle Light / Dark</button>
-    </div>
+      <h3 style="text-align:center; margin: 2rem 0 1rem; font-size:1.4rem;">Full MeshMapper View</h3>
 
-    <div id="repeater-map" class="repeater-map"></div>
-
-    <p style="text-align: center; margin-top: 1rem;">
-      <a href="https://sce.meshmapper.net/" target="_blank" rel="noopener">Open full map on MeshMapper →</a>
-    </p>
-
-    <h3 style="text-align:center; margin: 2.5rem 0 1rem; font-size:1.4rem;">Full MeshMapper View</h3>
-    <div style="width:100%; height:520px; border-radius:12px; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,.08);">
-      <a href="https://sce.meshmapper.net/?iata=SCE&preset=all&m=std&l=rep.rcov.nbr.nz.nzb.rb&cm=std&lat=40.58307&lon=-77.75931&zoom=8.00" target="_blank" rel="noopener" style="display:block; width:100%; height:520px; border-radius:12px; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,.08);">
+      <!-- Desktop -->
+      <a href="https://sce.meshmapper.net/?iata=SCE&preset=all&m=std&l=rep.rcov.nbr.nz.nzb.rb&cm=std&lat=40.58307&lon=-77.75931&zoom=8.00" target="_blank" rel="noopener" class="map-desktop" style="display:block; width:100%; height:520px; border-radius:12px; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,.08);">
         <iframe
           src="https://sce.meshmapper.net/?iata=SCE&preset=all&m=std&l=rep.rcov.nbr.nz.nzb.rb&cm=std&lat=40.58307&lon=-77.75931&zoom=8.00"
           style="width:100%; height:100%; border:none; pointer-events:none;"
@@ -118,182 +108,29 @@ import Layout from '../layouts/Layout.astro';
           title="MeshMapper SCE">
         </iframe>
       </a>
+
+      <!-- Mobile -->
+      <a href="https://sce.meshmapper.net/?iata=SCE&preset=all&m=std&l=rep.rcov.nbr.nz.nzb.rb&cm=std&lat=40.58307&lon=-77.75931&zoom=7.44" target="_blank" rel="noopener" class="map-mobile" style="display:none; width:100%; height:380px; border-radius:12px; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,.08);">
+        <iframe
+          src="https://sce.meshmapper.net/?iata=SCE&preset=all&m=std&l=rep.rcov.nbr.nz.nzb.rb&cm=std&lat=40.58307&lon=-77.75931&zoom=7.44"
+          style="width:100%; height:100%; border:none; pointer-events:none;"
+          loading="lazy"
+          title="MeshMapper SCE">
+        </iframe>
+      </a>
+
+      <p style="text-align: center; margin-top: 1rem;">
+        <a href="https://sce.meshmapper.net/?iata=SCE&preset=all&m=std&l=rep.rcov.nbr.nz.nzb.rb&cm=std&lat=40.58307&lon=-77.75931&zoom=8.00" target="_blank" rel="noopener">Open full map on MeshMapper →</a>
+      </p>
     </div>
-  </div>
-</section>
+  </section>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
-
-<script>
-  (function () {
-    const mapEl = document.getElementById("repeater-map");
-    if (!mapEl) return;
-
-    const map = L.map("repeater-map").setView([40.7934, -77.8600], 9);
-
-    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: '&copy; OpenStreetMap contributors',
-      maxZoom: 19
-    }).addTo(map);
-
-    const themeBtn = document.getElementById("theme-toggle");
-    let isDark = false;
-    themeBtn?.addEventListener("click", () => {
-      isDark = !isDark;
-      const tiles = mapEl.querySelector(".leaflet-tile-pane");
-      if (tiles) {
-        tiles.style.filter = isDark
-          ? "invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9)"
-          : "none";
-      }
-    });
-
-    const coverageLayer = L.layerGroup().addTo(map);
-    const markers = L.markerClusterGroup({
-      maxClusterRadius: 50,
-      spiderfyOnMaxZoom: true,
-      showCoverageOnHover: false,
-      zoomToBoundsOnClick: true
-    }).addTo(map);
-    const linesLayer = L.layerGroup().addTo(map);
-
-    function makePillIcon(name, shortId) {
-      const label = (name || shortId).slice(0, 18);
-      return L.divIcon({
-        className: "repeater-pill",
-        html: `
-          <div style="
-            display:inline-flex;align-items:center;gap:5px;
-            background:rgba(26,115,232,0.85);color:#fff;border-radius:999px;
-            padding:2px 8px 2px 3px;font-size:11px;font-weight:600;
-            white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.4);
-            border:1px solid rgba(255,255,255,.4);
-            backdrop-filter:blur(2px);
-          ">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.95;">
-              <path d="M12 2v4"/>
-              <path d="M8 6h8"/>
-              <path d="M6 10h12"/>
-              <path d="M4 14h16"/>
-              <path d="M2 18h20"/>
-              <path d="M12 6v16"/>
-            </svg>
-            <span>${label}</span>
-            <span style="opacity:.85;font-weight:500;font-size:10px;">${shortId}</span>
-          </div>
-        `,
-        iconSize: [null, null],
-        iconAnchor: [0, 10],
-        popupAnchor: [0, -10]
-      });
+  <style>
+    @media (max-width: 700px) {
+      .map-desktop { display: none !important; }
+      .map-mobile { display: block !important; }
     }
-
-    // Coverage grid
-    fetch("/api/coverage")
-      .then(r => r.json())
-      .then(data => {
-        if (!data || !Array.isArray(data.grid_squares)) return;
-        data.grid_squares.forEach(sq => {
-          if (!sq.bounds) return;
-          L.rectangle(
-            [[sq.bounds.south, sq.bounds.west], [sq.bounds.north, sq.bounds.east]],
-            {
-              fillColor: sq.fill_color || "#1e7e34",
-              color: sq.border_color || "#14522d",
-              fillOpacity: 0.3,
-              weight: 0.4
-            }
-          ).bindPopup(`
-            <strong>${sq.coverage_type || "Coverage"}</strong><br>
-            Count: ${sq.count || 0}<br>
-            SNR: ${sq.snr ?? "n/a"}<br>
-            <a href="https://sce.meshmapper.net/" target="_blank" rel="noopener">View full map →</a>
-          `).addTo(coverageLayer);
-        });
-        if (data.bbox) {
-          map.fitBounds([[data.bbox.minLat, data.bbox.minLon], [data.bbox.maxLat, data.bbox.maxLon]]);
-        }
-      })
-      .catch(err => console.error("Coverage failed", err));
-
-    // Repeaters + neighbor lines
-    fetch("/api/repeaters")
-      .then(r => r.json())
-      .then(repeaters => {
-        if (!Array.isArray(repeaters)) return;
-
-        const byHex = {};
-        const valid = [];
-
-        repeaters.forEach(rep => {
-          if (!rep.lat || !rep.lon || (rep.lat === 0 && rep.lon === 0)) return;
-          byHex[rep.hex_id] = rep;
-          valid.push(rep);
-
-          const shortId = (rep.id || "").slice(0, 4).toUpperCase();
-          const status = rep.enabled === 1 ? "Active" : rep.enabled === 2 ? "Ambiguous" : rep.enabled === 3 ? "Inactive" : "Disabled";
-          const lastHeard = rep.last_heard ? new Date(rep.last_heard * 1000).toLocaleString() : "Unknown";
-
-          let html = `
-            <strong>${rep.name || rep.id}</strong><br>
-            ID: ${shortId}<br>
-            Status: ${status}<br>
-            Last heard: ${lastHeard}<br>
-          `;
-          if (rep.power) html += `Power: ${rep.power}<br>`;
-          if (rep.hardware) html += `Hardware: ${rep.hardware}<br>`;
-          if (rep.antenna) html += `Antenna: ${rep.antenna}<br>`;
-          if (rep.height_m) html += `Height: ${rep.height_m} m<br>`;
-          if (rep.power_source) html += `Power source: ${rep.power_source}<br>`;
-          if (rep.preset_current) html += `Preset: ${rep.preset_current}<br>`;
-          if (rep.backbone) html += `Backbone: yes<br>`;
-          if (rep.site_notes) html += `<em>${rep.site_notes}</em><br>`;
-          html += `<br><a href="https://sce.meshmapper.net/?repeater=${rep.id}" target="_blank" rel="noopener">View on MeshMapper →</a>`;
-
-          L.marker([rep.lat, rep.lon], { icon: makePillIcon(rep.name, shortId) })
-            .bindPopup(html)
-            .addTo(markers);
-        });
-
-        // Proven neighbour lines
-        valid.forEach(rep => {
-          if (!Array.isArray(rep.proven_neighbours) || !rep.proven_neighbours.length) return;
-
-          rep.proven_neighbours.forEach(n => {
-            if (!n.key) return;
-
-            const neighbor = Object.values(byHex).find(r =>
-              r.hex_id && (r.hex_id.startsWith(n.key) || n.key.startsWith(r.hex_id.slice(0, n.key.length)))
-            );
-            if (!neighbor || !neighbor.lat || !neighbor.lon) return;
-
-            const snr = n.snr ?? 0;
-            const color = snr >= 6 ? "#1e7e34" : snr >= 2 ? "#fd7e14" : "#6c757d";
-            const weight = snr >= 6 ? 3.5 : 2.5;
-
-            L.polyline([[rep.lat, rep.lon], [neighbor.lat, neighbor.lon]], {
-              color,
-              weight,
-              opacity: 0.85,
-              lineJoin: "round"
-            }).bindPopup(`
-              <strong>${rep.name || rep.id}</strong> ↔ <strong>${neighbor.name || neighbor.id}</strong><br>
-              SNR: ${snr} dB<br>
-              <a href="https://sce.meshmapper.net/" target="_blank" rel="noopener">View on MeshMapper →</a>
-            `).addTo(linesLayer);
-          });
-        });
-      })
-      .catch(err => {
-        console.error("Failed to load repeaters", err);
-        mapEl.insertAdjacentHTML("afterend", "<p style='text-align:center;color:#c00;'>Could not load repeater data.</p>");
-      });
-  })();
-</script>
+  </style>
 
   <section id="get-started">
     <div class="container">
