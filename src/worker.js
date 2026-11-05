@@ -2,7 +2,7 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    // MeshMapper proxy
+    // MeshMapper proxy — key stays in Cloudflare secrets only
     if (url.pathname === "/api/repeaters") {
       const origin = request.headers.get("Origin") || "";
       const allowedOrigins = ["https://cpame.sh", "https://www.cpame.sh"];
@@ -59,6 +59,10 @@ export default {
     }
 
     // Serve the static Astro site
-    return env.ASSETS.fetch(request);
+    if (env.ASSETS) {
+      return env.ASSETS.fetch(request);
+    }
+
+    return new Response("Assets not available", { status: 500 });
   }
 };
