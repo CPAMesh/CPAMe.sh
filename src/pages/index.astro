@@ -25,8 +25,20 @@ import Layout from '../layouts/Layout.astro';
           Facebook
         </a>
       </nav>
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </header>
+
+  <div class="drawer-backdrop" data-drawer-close hidden></div>
+  <aside id="mobile-drawer" class="drawer" aria-label="Site menu" aria-hidden="true" inert>
+    <div class="drawer-head">
+      <span class="logo-text">CENTRAL PA <span>MESH</span></span>
+      <button class="drawer-close" type="button" aria-label="Close menu" data-drawer-close>&times;</button>
+    </div>
+    <div class="drawer-links"></div>
+  </aside>
 
   <section class="hero">
     <img class="hero-banner" src="/logo.jpg" alt="Central PA Mesh - Decentralized Communities" />
@@ -235,3 +247,29 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </footer>
 </Layout>
+
+<script>
+  const toggle = document.querySelector('.nav-toggle');
+  const drawer = document.getElementById('mobile-drawer');
+  const backdrop = document.querySelector('.drawer-backdrop');
+  const links = drawer.querySelector('.drawer-links');
+  // Reuse the header nav links so there is one source of truth.
+  document.querySelectorAll('header nav > a').forEach((a) => links.appendChild(a.cloneNode(true)));
+
+  const setOpen = (open) => {
+    drawer.classList.toggle('open', open);
+    backdrop.hidden = !open;
+    requestAnimationFrame(() => backdrop.classList.toggle('open', open));
+    drawer.toggleAttribute('inert', !open);
+    drawer.setAttribute('aria-hidden', String(!open));
+    toggle.setAttribute('aria-expanded', String(open));
+    document.body.classList.toggle('drawer-open', open);
+    (open ? drawer.querySelector('.drawer-close') : toggle).focus();
+  };
+
+  toggle.addEventListener('click', () => setOpen(true));
+  document.querySelectorAll('[data-drawer-close]').forEach((el) => el.addEventListener('click', () => setOpen(false)));
+  links.addEventListener('click', (e) => { if (e.target.closest('a')) setOpen(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && drawer.classList.contains('open')) setOpen(false); });
+  matchMedia('(min-width: 701px)').addEventListener('change', (e) => { if (e.matches && drawer.classList.contains('open')) setOpen(false); });
+</script>
