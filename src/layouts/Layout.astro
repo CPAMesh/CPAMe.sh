@@ -271,8 +271,106 @@ const { title = "Central PA Mesh | CPAMe.sh", description = "Central PA Mesh is 
 
   .btn-secondary:hover { background: #f0f9ff; }
 
-  section { padding: 4.5rem 0; }
+  section { padding: 4.5rem 0; scroll-margin-top: 5.5rem; }
   section:nth-child(even) { background: var(--bg-alt); }
+
+  #hardware { background: var(--bg-alt); }
+  .hw-group { margin-top: 2.5rem; }
+  .hw-group > h3 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--navy);
+    text-align: center;
+    margin-bottom: 0.4rem;
+  }
+  .hw-lead {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto 1.5rem;
+    color: var(--text-light);
+  }
+  .hw-group > h4 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--blue);
+    text-align: center;
+    margin: 1.75rem 0 1rem;
+  }
+  .hw-group > h4.hw-sub {
+    font-size: 1.35rem;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--navy);
+    margin: 2rem 0 0.4rem;
+  }
+  .hw-mini {
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--blue);
+    text-align: center;
+    margin: 1.5rem 0 0.9rem;
+  }
+  .hw-grid { align-items: stretch; }
+  .hw-card {
+    padding: 0 0 1.25rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .hw-card img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    background: #f8fafc;
+    padding: 0.85rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .hw-card-body { padding: 1rem 1.25rem 0; flex: 1; display: flex; flex-direction: column; }
+  .hw-card-body h3 { font-size: 1.1rem; margin-bottom: 0.4rem; }
+  .hw-help {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+  .hw-help p {
+    max-width: 640px;
+    margin: 0 auto 1.25rem;
+    color: var(--text-light);
+    font-size: 1.05rem;
+  }
+  .hw-fw {
+    display: inline-block;
+    align-self: flex-start;
+    margin: 0 0 0.5rem;
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    background: #e8f0fe;
+    color: var(--blue);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .hw-sources {
+    margin-top: auto;
+    padding-top: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--text-light);
+  }
+  .hw-sources span {
+    display: block;
+    font-weight: 600;
+    color: var(--navy);
+    font-size: 0.8rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    margin-bottom: 0.15rem;
+  }
 
   h2 {
     font-size: 2.25rem;

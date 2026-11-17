@@ -16,6 +16,7 @@ import Layout from '../layouts/Layout.astro';
         <a href="#get-started">Get Started</a>
         <a href="#resources">Resources</a>
         <a href="#map">Coverage Map</a>
+        <a href="#hardware">Hardware</a>
         <a href="https://discord.gg/9wWs3Y7Cx5" class="icon-btn discord-btn" target="_blank" rel="noopener" aria-label="Join Discord">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
           Discord
@@ -184,7 +185,7 @@ import Layout from '../layouts/Layout.astro';
       <div class="grid">
         <div class="card">
           <h3>1. Get Hardware</h3>
-          <p>A LoRa radio (Heltec, RAK, LilyGo, etc.) that supports Meshcore. Make sure it's the 915 MHz version for the US and Central Pennsylvania.</p>
+          <p>A LoRa radio (Heltec, RAK, LilyGo, etc.) that supports Meshcore. Make sure it's the 915 MHz version for the US and Central Pennsylvania. See the <a href="#hardware">Hardware</a> section at the bottom of this page for common companion and repeater options.</p>
         </div>
         <div class="card">
           <h3>2. Flash Firmware</h3>
@@ -197,6 +198,7 @@ import Layout from '../layouts/Layout.astro';
       </div>
     </div>
   </section>
+
 
   <section id="resources">
     <div class="container">
@@ -227,6 +229,149 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 
+  <section id="hardware">
+    <div class="container">
+      <h2>Hardware</h2>
+      <p class="section-intro">
+        Companions are radios you use to chat. Standalone companions have a screen and a keyboard, joystick, or buttons, so you can read messages and type or send canned replies on the device itself, without a phone.
+        App-connected companions talk over Bluetooth, USB, or Wi-Fi to the MeshCore or Meshtastic app on your phone or computer.
+        Repeaters stay in one place, usually up high and often on solar, and pass messages along the mesh.
+        This is only a sample of what’s available, not a complete list. Choose the 915&nbsp;MHz / US version for Central Pennsylvania. Some of these devices can also be bought on Amazon.
+      </p>
+
+      <div class="hw-group">
+        <h3>Companions</h3>
+        <p class="hw-lead">These are just a few picks; there are many more companion options available.</p>
+
+        <h4 class="hw-sub">Standalone</h4>
+        <p class="hw-lead">Type, read, and send on the device itself. A phone is optional, not required.</p>
+        <div class="grid hw-grid">
+          <article class="card hw-card">
+            <img src="/images/hardware/lilygo-t-deck-plus.webp" width="600" height="600" alt="LilyGO T-Deck Plus handheld messenger with keyboard and color screen" />
+            <div class="hw-card-body">
+              <h3>LilyGO T-Deck Plus</h3>
+              <span class="hw-fw">Both</span>
+              <p>Handheld messenger with a keyboard, color screen, GPS, and a built-in battery. Type, read, and send on the device itself.</p>
+              <p class="hw-sources"><span>Available from:</span> LilyGO, Rokland</p>
+            </div>
+          </article>
+          <article class="card hw-card">
+            <img src="/images/hardware/wio-tracker-l1-pro.webp" width="600" height="600" alt="Seeed Wio Tracker L1 Pro handheld mesh radio with screen and antenna" />
+            <div class="hw-card-body">
+              <h3>Wio Tracker L1 Pro</h3>
+              <span class="hw-fw">Both</span>
+              <p>Compact handheld with a screen and joystick. Read messages, type on the on-screen keyboard, or send canned replies without a phone.</p>
+              <p class="hw-sources"><span>Available from:</span> Seeed Studio, Rokland</p>
+            </div>
+          </article>
+        </div>
+
+        <h4 class="hw-sub">App-connected</h4>
+        <p class="hw-lead">Needs the MeshCore or Meshtastic app on your phone or computer, over Bluetooth, USB, or Wi-Fi.</p>
+        <h5 class="hw-mini">Ready-made</h5>
+        <div class="grid hw-grid">
+          <article class="card hw-card">
+            <img src="/images/hardware/sensecap-t1000-e.webp" width="600" height="600" alt="Seeed SenseCAP T1000-E credit-card sized pocket mesh tracker" />
+            <div class="hw-card-body">
+              <h3>SenseCAP T1000-E</h3>
+              <span class="hw-fw">Both</span>
+              <p>Credit-card-sized pocket tracker that pairs with your phone. IP65, with an internal antenna.</p>
+              <p class="hw-sources"><span>Available from:</span> Seeed Studio, Rokland</p>
+            </div>
+          </article>
+        </div>
+
+        <h5 class="hw-mini">DIY</h5>
+        <div class="grid hw-grid">
+          <article class="card hw-card">
+            <img src="/images/hardware/heltec-wifi-lora-32-v3.webp" width="600" height="600" alt="Heltec WiFi LoRa 32 V3 development board in a clear case with antenna" />
+            <div class="hw-card-body">
+              <h3>Heltec WiFi LoRa 32 V3</h3>
+              <span class="hw-fw">Both</span>
+              <p>Popular, inexpensive ESP32-S3 board with an OLED. Add a battery, case, and antenna, then pair with the app.</p>
+              <p class="hw-sources"><span>Available from:</span> Heltec, Rokland</p>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="hw-group">
+        <h3>Repeaters</h3>
+        <p class="hw-lead">Fixed nodes that extend coverage. They don’t replace a phone or a handheld for chatting.</p>
+
+        <h4>Ready-made</h4>
+        <div class="grid hw-grid">
+          <article class="card hw-card">
+            <img src="/images/hardware/rak-wismesh-repeater.webp" width="600" height="600" alt="RAK WisMesh Repeater outdoor enclosure with solar panel and antenna" />
+            <div class="hw-card-body">
+              <h3>RAK WisMesh Repeater</h3>
+              <span class="hw-fw">Both</span>
+              <p>Ready-to-deploy outdoor solar repeater in an IP67 enclosure, with mounting hardware.</p>
+              <p class="hw-sources"><span>Available from:</span> RAKwireless Store, Rokland</p>
+            </div>
+          </article>
+          <article class="card hw-card">
+            <img src="/images/hardware/sensecap-solar-node-p1-pro.webp" width="600" height="600" alt="Seeed SenseCAP Solar Node P1-Pro with integrated solar panel" />
+            <div class="hw-card-body">
+              <h3>SenseCAP Solar Node P1-Pro</h3>
+              <span class="hw-fw">Both</span>
+              <p>All-in-one solar repeater with a 5&nbsp;W panel, batteries, GPS, and an external antenna.</p>
+              <p class="hw-sources"><span>Available from:</span> Seeed Studio, Rokland</p>
+            </div>
+          </article>
+          <article class="card hw-card">
+            <img src="/images/hardware/heltec-meshtower-v2.webp" width="600" height="600" alt="Heltec MeshTower V2 outdoor solar LoRa node on a stand" />
+            <div class="hw-card-body">
+              <h3>Heltec MeshTower V2</h3>
+              <span class="hw-fw">Both</span>
+              <p>Ready-made outdoor LoRa node with a solar panel, built for long-term installs.</p>
+              <p class="hw-sources"><span>Available from:</span> Heltec, Rokland</p>
+            </div>
+          </article>
+        </div>
+
+        <h4>DIY</h4>
+        <div class="grid hw-grid">
+          <article class="card hw-card">
+            <img src="/images/hardware/rak-unify-solar-enclosure.webp" width="600" height="600" alt="RAK Unify solar enclosure for a DIY WisBlock repeater build" />
+            <div class="hw-card-body">
+              <h3>RAK4631 + solar enclosure</h3>
+              <span class="hw-fw">Both</span>
+              <p>Build your own solar repeater with a WisBlock board, Unify enclosure, battery, and panel.</p>
+              <p class="hw-sources"><span>Available from:</span> RAKwireless Store, Rokland</p>
+            </div>
+          </article>
+          <article class="card hw-card">
+            <img src="/images/hardware/heltec-t114-solar-kit.webp" width="600" height="600" alt="Heltec waterproof solar enclosure, front solar panel and open back with batteries and board" />
+            <div class="hw-card-body">
+              <h3>Heltec T114 + Solar Kit</h3>
+              <span class="hw-fw">Both</span>
+              <p>Low-power nRF52840 board plus Heltec’s waterproof solar enclosure and 18650 tray.</p>
+              <p class="hw-sources"><span>Available from:</span> Heltec, Rokland</p>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="hw-help">
+        <p>
+          Questions, or need help choosing and setting up a radio for MeshCore or Meshtastic?
+          Visit our Discord or Facebook group — the community is happy to help.
+        </p>
+        <div class="cta-group">
+          <a href="https://discord.gg/9wWs3Y7Cx5" class="icon-btn discord-btn" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+            Join Discord
+          </a>
+          <a href="https://www.facebook.com/share/g/1E1nHxfQyd/" class="icon-btn facebook-btn" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            Join Facebook
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <footer>
     <div class="container">
       <img src="/logo.jpg" alt="Central PA Mesh" class="footer-logo" />
@@ -240,6 +385,8 @@ import Layout from '../layouts/Layout.astro';
         <a href="#about">About</a>
         · 
         <a href="#resources">Resources</a>
+        · 
+        <a href="#hardware">Hardware</a>
       </p>
       <p style="margin-top: 2rem; font-size: 0.85rem;">
         Community site for the Central PA Mesh network (Meshcore & Meshtastic). Not affiliated with official Meshcore or Meshtastic projects.
