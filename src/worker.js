@@ -117,6 +117,59 @@ async function handleGuide(ctx, corsHeaders) {
   }
 }
 
+const SECTION_META = {
+  about: {
+    title: "About Central PA Mesh | CPAMe.sh",
+    description: "Central PA Mesh brings together Meshcore and Meshtastic to build a community-owned, solar-powered LoRa radio network across Central Pennsylvania. No cell towers or internet required.",
+  },
+  discord: {
+    title: "Join the Central PA Mesh Discord | CPAMe.sh",
+    description: "Get help, share node locations, coordinate builds, and stay updated on our Discord server. New Meshcore and Meshtastic users in Central PA are always welcome.",
+  },
+  map: {
+    title: "Coverage Map | Central PA Mesh",
+    description: "Live MeshMapper view of Meshcore repeaters for the Central PA (SCE) region. Open the full interactive map to see coverage near you.",
+  },
+  "get-started": {
+    title: "How to Get Started with LoRa Mesh in Central PA | CPAMe.sh",
+    description: "Get a 915 MHz LoRa radio that supports Meshcore, flash the firmware, join the network, then say hi on Discord to find nearby nodes in Central PA.",
+  },
+  resources: {
+    title: "Meshcore & Meshtastic Resources for Pennsylvania | CPAMe.sh",
+    description: "Official and community links for getting online on the Central PA Mesh: meshcore.io, the web flasher, the node map, MeshcoreLearning.org, and local help on Discord.",
+  },
+  hardware: {
+    title: "Mesh Radio Hardware | Central PA Mesh",
+    description: "A sample of standalone and app-connected companion radios and repeaters for Meshcore and Meshtastic. Pick the 915 MHz / US version for Central Pennsylvania.",
+    image: "https://cpame.sh/images/hardware/rak-wismesh-repeater.webp",
+  },
+};
+
+async function serveSection(request, env, id) {
+  const meta = SECTION_META[id];
+  const url = new URL(request.url);
+  const res = await env.ASSETS.fetch(new Request(url.origin + "/", { headers: request.headers }));
+  const pageUrl = "https://cpame.sh/" + id;
+  const image = meta.image || "https://cpame.sh/logo.jpg";
+  const setContent = (v) => ({ element: (e) => e.setAttribute("content", v) });
+  const rw = new HTMLRewriter()
+    .on("title", { element: (e) => e.setInnerContent(meta.title) })
+    .on('meta[name="description"]', setContent(meta.description))
+    .on('meta[property="og:title"]', setContent(meta.title))
+    .on('meta[property="og:description"]', setContent(meta.description))
+    .on('meta[property="og:url"]', setContent(pageUrl))
+    .on('meta[property="og:image"]', setContent(image))
+    .on('meta[name="twitter:title"]', setContent(meta.title))
+    .on('meta[name="twitter:description"]', setContent(meta.description))
+    .on('meta[name="twitter:image"]', setContent(image))
+    .on('link[rel="canonical"]', { element: (e) => e.setAttribute("href", pageUrl) });
+  const headers = new Headers(res.headers);
+  headers.set("Content-Type", "text/html; charset=utf-8");
+  headers.delete("Content-Length");
+  headers.delete("ETag");
+  return rw.transform(new Response(res.body, { status: 200, headers }));
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -145,6 +198,12 @@ export default {
     // Old guide URL now lives at /regions
     if (url.pathname === "/repeater-regions" || url.pathname === "/repeater-regions/") {
       return Response.redirect(url.origin + "/regions", 301);
+    }
+
+    // Shareable section paths: homepage HTML with per-section preview tags
+    if (env.ASSETS && (request.method === "GET" || request.method === "HEAD")) {
+      const sec = url.pathname.replace(/^\/|\/$/g, "");
+      if (Object.prototype.hasOwnProperty.call(SECTION_META, sec)) return serveSection(request, env, sec);
     }
 
     // Live guide from Google Docs

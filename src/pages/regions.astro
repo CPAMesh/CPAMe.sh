@@ -8,6 +8,10 @@ const docUrl = 'https://docs.google.com/document/d/1ZVx55BXqSLXx6rvfMXpPVS4fmolY
   <main class="guide">
     <div class="container guide-inner">
       <h1>Regions</h1>
+      <div class="guide-intro">
+        <p>Regions don't shrink your reach. They make the mesh work better for everyone. Without regions, every message floods the whole network, even a "good morning" meant only for folks down the road. That uses up airtime on repeaters hundreds of miles away and crowds out traffic that really needs to travel.</p>
+        <p>Repeaters just need to know which regions they belong to. The choice of how far a message goes is made on your companion. You can set any channel, including the public channel, to a region so local chatter stays local. Anything you leave unscoped, plus direct messages, still floods the full network just like before. You're in control: keep it local when that's all it needs, or go wide when it matters. The result is less congestion, fewer collisions, and better delivery for everyone.</p>
+      </div>
       <h2 class="guide-sub">Setting up regions on a repeater (firmware 1.16+)</h2>
       <p class="guide-note" id="guide-rev" style="color:var(--text-light);font-size:.85rem;margin-bottom:1rem"></p>
       <div id="guide-body" aria-live="polite">
@@ -58,7 +62,8 @@ const docUrl = 'https://docs.google.com/document/d/1ZVx55BXqSLXx6rvfMXpPVS4fmolY
   .guide { padding: 3rem 0 4rem; background: var(--bg-alt); min-height: 70vh; }
   .guide-inner { max-width: 760px; }
   .guide h1 { font-size: 2.2rem; color: var(--navy); margin-bottom: 0.6rem; line-height: 1.25; }
-  .guide-intro { color: var(--text-light); margin-bottom: 2rem; }
+  .guide-intro { margin-bottom: 2rem; }
+  .guide-intro p { margin-bottom: 0.9rem; line-height: 1.6; }
   .guide h2.guide-sub { text-align: left; font-size: 1.4rem; color: var(--navy); margin-bottom: 0.3rem; line-height: 1.3; }
   #guide-body { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; }
   #guide-body p { margin-bottom: 1rem; }

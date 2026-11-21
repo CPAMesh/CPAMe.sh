@@ -72,12 +72,18 @@ const { base = "" } = Astro.props;
     const ids = ['about','discord','map','get-started','resources','hardware'];
     const secs = ids.map((id) => document.getElementById(id)).filter(Boolean);
     if (!secs.length) return;
-    const goToHash = () => {
-      const el = location.hash && document.getElementById(location.hash.slice(1));
+    const fromPath = () => {
+      const id = location.pathname.replace(/^\/|\/$/g, '');
+      return ids.includes(id) ? id : '';
+    };
+    const goTo = () => {
+      const id = fromPath() || location.hash.slice(1);
+      const el = id && document.getElementById(id);
       if (el) el.scrollIntoView();
     };
-    if (location.hash) {
-      window.addEventListener('load', () => { goToHash(); setTimeout(goToHash, 800); });
+    if (fromPath() || location.hash) {
+      window.addEventListener('load', () => { goTo(); setTimeout(goTo, 800); });
+      goTo();
     }
     let ticking = false;
     const update = () => {
@@ -86,9 +92,9 @@ const { base = "" } = Astro.props;
       let current = '';
       for (const s of secs) if (s.offsetTop <= y) current = s.id;
       if (window.scrollY < 80) current = '';
-      const want = current ? '#' + current : location.pathname + location.search;
-      if (location.hash !== (current ? '#' + current : '')) {
-        history.replaceState(null, '', want);
+      const want = current ? '/' + current : '/';
+      if (location.pathname.replace(/\/$/, '') !== (current ? '/' + current : '') || location.hash) {
+        history.replaceState(null, '', want + location.search);
       }
     };
     window.addEventListener('scroll', () => {

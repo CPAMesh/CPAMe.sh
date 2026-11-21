@@ -16,7 +16,8 @@ const { title = "Central PA Mesh | CPAMe.sh", description = "Central PA Mesh is 
     <meta property="og:description" content={description} />
     <meta property="og:image" content="https://cpame.sh/logo.jpg" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://cpame.sh" />
+    <meta property="og:url" content={Astro.url.pathname === "/" ? "https://cpame.sh" : "https://cpame.sh" + Astro.url.pathname.replace(/\/$/, "")} />
+    <link rel="canonical" href={Astro.url.pathname === "/" ? "https://cpame.sh/" : "https://cpame.sh" + Astro.url.pathname.replace(/\/$/, "")} />
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
