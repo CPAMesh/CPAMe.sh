@@ -101,15 +101,17 @@ const { title = "Central PA Mesh | CPAMe.sh", description = "Central PA Mesh is 
 
   .logo img { height: 48px; width: auto; }
 
-  .logo-text { font-weight: 700; font-size: 1.1rem; line-height: 1.2; }
+  .logo-text { font-weight: 700; font-size: 1.1rem; line-height: 1.2; white-space: nowrap; }
   .logo-text span { color: var(--blue); font-weight: 800; }
 
+  header nav { display: flex; align-items: center; flex-wrap: nowrap; }
   nav a {
-    margin-left: 1.5rem;
+    margin-left: 1.1rem;
     text-decoration: none;
     color: var(--text);
     font-weight: 500;
     font-size: 0.95rem;
+    white-space: nowrap;
   }
 
   nav a:hover { color: var(--blue); }
@@ -234,7 +236,7 @@ const { title = "Central PA Mesh | CPAMe.sh", description = "Central PA Mesh is 
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.5rem 1.25rem;
+    padding: 0.5rem 1rem;
     border-radius: 999px;
     font-weight: 600;
     text-decoration: none;
